@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+.env
+
+
+
+# VSCode
+.vscode/
+
+# Docker
+*.log
+docker-compose.override.yml
+data/db/
+
+# Byte-compiled and other junk
+*.swp
+*.bak
+*.tmp
+*.orig
+*.DS_Store
+Thumbs.db
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Pytest / coverage
+.coverage
+htmlcov/
+.tox/
+.cache/
+
+# Migrations (optional, keep if you want to reset often)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.pyo
