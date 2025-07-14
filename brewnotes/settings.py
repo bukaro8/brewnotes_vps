@@ -126,4 +126,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_SSL_REDIRECT = False  # Disable auto-redirect to HTTPS
 SESSION_COOKIE_SECURE = False  # Allow HTTP cookies
-CSRF_COOKIE_SECURE = False     # Allow HTTP CSRF
+CSRF_COOKIE_SECURE = False     # Allow HT
