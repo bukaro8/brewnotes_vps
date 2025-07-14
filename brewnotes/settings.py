@@ -15,9 +15,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%8)%9u*o2jq9k!t166g$2e*v(c6b_dw2_#u&t##dal-gu(puty'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["0.0.0.0", "localhost", "*"]
+ALLOWED_HOSTS = ["www.brewnotes.art", "brewnotes.art",
+                 "admin.brewnotes.art", "87.106.63.50", "0.0.0.0", "localhost"]
 
 
 # Application definition
@@ -43,7 +44,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'brewnotes.urls'
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://brewnotes.art',
+    'https://*.brewnotes.art'
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -118,3 +122,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
