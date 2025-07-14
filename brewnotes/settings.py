@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-%8)%9u*o2jq9k!t166g$2e*v(c6b_dw2_#u&t##dal-gu(puty
 DEBUG = False
 
 ALLOWED_HOSTS = ["www.brewnotes.art", "brewnotes.art",
-                 "admin.brewnotes.art", "87.106.63.50", "0.0.0.0", "localhost"]
+                 "admin.brewnotes.art", "87.106.63.50", "0.0.0.0", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -122,7 +122,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+
+
+SECURE_SSL_REDIRECT = False  # Disable auto-redirect to HTTPS
+SESSION_COOKIE_SECURE = False  # Allow HTTP cookies
+CSRF_COOKIE_SECURE = False     # Allow HTTP CSRF
