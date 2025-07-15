@@ -27,15 +27,16 @@ services:
   web:
     build: .
     container_name: django
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 --workers 3 brewnotes.wsgi:application
     volumes:
       - .:/code
       - static_volume:/code/static
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"  # Only expose to localhost
     env_file:
       - .env
     depends_on:
       - db
+      
 volumes:
   static_volume:
