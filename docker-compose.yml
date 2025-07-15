@@ -25,9 +25,10 @@ services:
       - db
 
   web:
+    web:
     build: .
     container_name: django
-    command: gunicorn --bind 0.0.0.0:8000 --workers 3 brewnotes.wsgi:application
+    # Remove the 'command' line to use the Dockerfile CMD
     volumes:
       - .:/code
       - static_volume:/code/static
@@ -37,6 +38,12 @@ services:
       - .env
     depends_on:
       - db
-      
+    # Add health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 volumes:
   static_volume:
