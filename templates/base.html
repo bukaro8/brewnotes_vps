@@ -37,20 +37,26 @@
   </svg>
 </button>
         <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
-          <li><a class="dropdown-item" href="#">Login</a></li>
-          <li><a class="dropdown-item" href="#">Signup</a></li>
+          {% if user.is_authenticated %}
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          {% else %}
+            <li><a class="dropdown-item" href="#">Login</a></li>
+            <li><a class="dropdown-item" href="#">Signup</a></li>
+          {% endif %}
         </ul>
       </div>
 
       <!-- Desktop menu (shown only on lg+) -->
       <div class="d-none d-lg-flex">
         <ul class="d-inline-flex gap-2 list-unstyled">
+          {% if user.is_authenticated %}
           <li><a class="text-decoration-none text-reset menu-link" href="#">Profile</a></li>
           <li><a class="text-decoration-none text-reset menu-link" href="#">Sign out</a></li>
+          {% else %}
           <li><a class="text-decoration-none text-reset menu-link" href="#">Login</a></li>
           <li><a class="text-decoration-none text-reset menu-link" href="#">Signup</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>
