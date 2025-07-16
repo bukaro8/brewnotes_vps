@@ -1,0 +1,19 @@
+.logo{
+	width:15vw;
+	height:auto;
+	max-width:100px
+}
+.header{
+	background: #5B8C3A;
+	color: #F8F5F0;
+
+}
+.menu-link {
+  text-decoration: none;
+  color: inherit; /* Inherits text color from parent */
+  transition: all 0.3s ease; /* Optional: smooth hover effects */
+}
+
+.menu-link:hover {
+  opacity: 0.8; /* Optional: hover effect */
+}
