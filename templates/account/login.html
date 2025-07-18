@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block title %}
+  <title>Sign In</title>
+{% endblock %}
+
+{% block head_title %}
+  {% trans "Sign In" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="col-md-4 mx-auto mt-5">
+  <h1>{% trans "Sign In" %}</h1>
+
+  {% if not SOCIALACCOUNT_ONLY %}
+    <p>
+      {% blocktranslate %}
+        If you have not created an account yet, then please 
+        <a href="{{ signup_url }}">sign up</a> first.
+      {% endblocktranslate %}
+    </p>
+
+    <form method="post" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {{ redirect_field }}
+      <button type="submit" class="btn btn-primary w-100 mt-3">
+        {% trans "Sign In" %}
+      </button>
+    </form>
+  {% endif %}
+
+  {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
+    <hr class="my-4">
+
+    {% if PASSKEY_LOGIN_ENABLED %}
+      <form id="mfa_login" method="post">
+        <!-- Add CSRF if needed here -->
+        <button
+          type="submit"
+          id="passkey_login"
+          class="btn btn-outline-primary w-100 mb-2"
+        >
+          {% trans "Sign in with a passkey" %}
+        </button>
+      </form>
+    {% endif %}
+
+    {% if LOGIN_BY_CODE_ENABLED %}
+    <a
+        href="{{ request_login_code_url }}"
+        class="btn btn-outline-primary w-100"
+    >
+        {% trans "Send me a sign-in code" %}
+    </a>
+    {% endif %}
+    {% endif %}
+
+    {% if SOCIALACCOUNT_ENABLED %}
+    {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block extra_body %}
+    {{ block.super }}
+    {% if PASSKEY_LOGIN_ENABLED %}
+    {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
+    {% endif %}
+{% endblock %}
