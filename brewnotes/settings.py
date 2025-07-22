@@ -36,15 +36,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'notes',
+
     'crispy_forms',
     'crispy_bootstrap5',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
 
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
 SITE_ID = 1
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -148,3 +164,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# allauth
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+LOGIN_REDIRECT_URL = 'home'
+
+# ACCOUNT_SIGNUP_FIELDS = ['email*',  'password1*', 'password2*']
+# ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # or any page after successful login
+# SOCIALACCOUNT_AUTO_SIGNUP = True   # optional: skips signup form
+# ACCOUNT_ADAPTER = 'brewnotes.adapter.NoNewUsersAccountAdapter'  # we'll define this next
+# ACCOUNT_LOGIN_METHODS = {'email'}
+
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Google handles verification
+SOCIALACCOUNT_AUTO_SIGNUP = True     # Skip allauth's signup form
+ACCOUNT_EMAIL_REQUIRED = True        # Get email from Google
+ACCOUNT_USERNAME_REQUIRED = False
+
+
+# ACCOUNT_ADAPTER = "notes.adapter.SocialOnlySignupAdapter"
+# ACCOUNT_SIGNUP_REDIRECT_URL = "/"
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_VERIFICATION = "none"
+# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+# ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+# SOCIALACCOUNT_AUTO_SIGNUP = True

@@ -1,6 +1,10 @@
-Django==4.2.9
+Django
 psycopg2-binary
 python-dotenv
-django-allauth
 django-crispy-forms
 crispy_bootstrap5
+requests>=2.31.0 
+cryptography
+PyJWT
+pycparser==2.22
+django-allauth
