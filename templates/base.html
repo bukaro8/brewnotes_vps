@@ -73,88 +73,102 @@
 							/>
 						</svg>
 					</button>
-<!-- In your navbar (both mobile and desktop versions) -->
+					<!-- In your navbar (both mobile and desktop versions) -->
 
-<!-- Mobile Menu Dropdown -->
-<ul class="dropdown-menu">
-  {% if user.is_authenticated %}
+					<!-- Mobile Menu Dropdown -->
+					<ul class="dropdown-menu">
+    {% if user.is_authenticated %}
     <!-- Profile with Google Picture -->
     <li>
-      <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
-        {% with social_account=user.socialaccount_set.all.0 %}
-        {% if social_account and social_account.get_avatar_url %}
-          <img src="{{ social_account.get_avatar_url }}" 
-               alt="Profile" 
-               class="rounded-circle me-2"
-               width="24"
-               height="24">
-        {% else %}
-          <span class="material-symbols-outlined me-2">account_circle</span>
-        {% endif %}
-        {% endwith %}
-        <span>Profile</span>
-      </a>
+        <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
+            {% with social_account=user.socialaccount_set.all.0 %}
+                {% if social_account and social_account.get_avatar_url %}
+                <img src="{{ social_account.get_avatar_url }}"
+                     alt="Profile"
+                     class="rounded-circle me-2"
+                     width="24"
+                     height="24">
+                {% else %}
+                <span class="material-symbols-outlined me-2">account_circle</span>
+                {% endif %}
+            {% endwith %}
+            <span>Profile</span>
+        </a>
     </li>
-    
-    <!-- Sign Out remains the same -->
+
+    <!-- Sign Out -->
     <li>
-      <a class="dropdown-item d-flex align-items-center text-danger" href="{% url 'account_logout' %}">
-        <span class="material-symbols-outlined me-2">logout</span>
-        <span>Sign out</span>
-      </a>
+        <a class="dropdown-item d-flex align-items-center text-danger" href="{% url 'account_logout' %}">
+            <span class="material-symbols-outlined me-2">logout</span>
+            <span>Sign out</span>
+        </a>
     </li>
-  {% else %}
-    <!-- Login option remains the same -->
+    {% else %}
+    <!-- Login option -->
     <li>
-      <a class="dropdown-item d-flex align-items-center" href="{% provider_login_url 'google' %}">
-        <span class="material-symbols-outlined me-2">login</span>
-        <span>Login</span>
-      </a>
+        <a class="dropdown-item d-flex align-items-center" href="{% provider_login_url 'google' %}">
+            <span class="material-symbols-outlined me-2">login</span>
+            <span>Login</span>
+        </a>
     </li>
-  {% endif %}
+    {% endif %}
 </ul>
 				</div>
 
 				<!-- Desktop menu (shown only on lg+) -->
 				<div class="d-none d-lg-flex">
 					<!-- Desktop Menu (shown on lg+ screens) -->
-<ul class="nav nav-pills d-none d-lg-flex align-items-center">
-  {% if user.is_authenticated %}
-    <!-- Profile -->
-    <li class="nav-item mx-2">
-      <a class="nav-link d-flex align-items-center text-reset" href="{% url 'profile' %}">
-       {% with social_account=user.socialaccount_set.all.0 %}
-        {% if social_account and social_account.get_avatar_url %}
-          <img src="{{ social_account.get_avatar_url }}" 
-               alt="Profile" 
-               class="rounded-circle me-2"
-               width="33"
-               height="33">
-        {% else %}
-          <span class="material-symbols-outlined me-2">account_circle</span>
-        {% endif %}
-        {% endwith %}
-				  <span>Profile</span>
-      </a>
-    </li>
-    
-    <!-- Sign Out -->
-    <li class="nav-item mx-2">
-      <a class="nav-link d-flex align-items-center text-white" href="{% url 'account_logout' %}">
-        <span class="material-symbols-outlined me-2">logout</span>
-        <span>Sign out</span>
-      </a>
-    </li>
-  {% else %}
-    <!-- Login with Google - Icon Only -->
-    <li class="nav-item">
-      <a class="btn btn-google d-flex align-items-center py-2 px-3" href="{% provider_login_url 'google' %}">
-        <span class="material-symbols-outlined me-2 text-white">login</span>
-        <span class="text-white fw-medium">Login</span>
-      </a>
-    </li>
-  {% endif %}
-</ul>
+					<ul class="nav nav-pills d-none d-lg-flex align-items-center">
+						{% if user.is_authenticated %}
+						<!-- Profile -->
+						<li class="nav-item mx-2">
+							<a
+								class="nav-link d-flex align-items-center text-reset"
+								href="{% url 'profile' %}"
+							>
+								{% with social_account=user.socialaccount_set.all.0 %}
+								   {% if social_account and social_account.get_avatar_url %}
+								<img
+									src="{{ social_account.get_avatar_url }}"
+									alt="Profile"
+									class="rounded-circle me-2"
+									width="33"
+									height="33"
+								/>
+								{% else %}
+								<span class="material-symbols-outlined me-2"
+									>account_circle</span
+								>
+								{% endif %} {% endwith %}
+								<span>Profile</span>
+							</a>
+						</li>
+
+						<!-- Sign Out -->
+						<li class="nav-item mx-2">
+							<a
+								class="nav-link d-flex align-items-center text-white"
+								href="{% url 'account_logout' %}"
+							>
+								<span class="material-symbols-outlined me-2">logout</span>
+								<span>Sign out</span>
+							</a>
+						</li>
+						{% else %}
+						<!-- Login with Google - Icon Only -->
+						<li class="nav-item">
+							<a
+								class="btn btn-google d-flex align-items-center py-2 px-3"
+								href="{% provider_login_url 'google' %}"
+							>
+								<span class="material-symbols-outlined me-2 text-white"
+									>login</span
+								>
+								<span class="text-white fw-medium">Login</span>
+							</a>
+						</li>
+						{% endif %}
+					</ul>
 				</div>
 			</div>
 		</div>
