@@ -17,3 +17,15 @@
 .menu-link:hover {
   opacity: 0.8; /* Optional: hover effect */
 }
+
+.profile-pic {
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-pic-fallback {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

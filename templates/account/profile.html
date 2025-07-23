@@ -1,16 +1,38 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+
 {% block content %}
 <div class="col-md-4 mx-auto">
-	<h2> Profile</h2>
-	<h3 class="text-secondary">Welcome {{user.username}}!!</h3>
-	<hr>
-	<img src='{{user.picture}}' alt="">
-	<p><strong>Username:</strong>{{user.username}}</p>
-	<p><strong>Name:</strong>{{user.first_name}}</p>
-	<p><strong>Surname:</strong>{{user.last_name}}</p>
-	<p><strong>Email:</strong>{{user.email}}</p>
-	<hr>
+    <h2>Profile</h2>
+    <h3 class="text-secondary">Welcome {{ user.username }}!!</h3>
+    <hr>
+    
+    <!-- Profile Picture Section -->
+    <div class="text-center mb-4">
+        {% with social_account=user.socialaccount_set.all.0 %}
+        {% if social_account and social_account.get_avatar_url %}
+            <img src="{{ social_account.get_avatar_url }}" 
+                 alt="Profile Picture" 
+                 class="rounded-circle border"
+                 width="150"
+                 height="150">
+        {% else %}
+            <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle border" 
+                 style="width: 150px; height: 150px;">
+                <span class="material-symbols-outlined text-muted" style="font-size: 60px;">
+                    account_circle
+                </span>
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
 
-
+    <div class="mt-3">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Name:</strong> {{ user.first_name|default:"Not provided" }}</p>
+        <p><strong>Surname:</strong> {{ user.last_name|default:"Not provided" }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+    <hr>
 </div>
 {% endblock %}
