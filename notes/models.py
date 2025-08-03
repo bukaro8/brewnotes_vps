@@ -15,3 +15,14 @@ class DrinkType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Ingredients(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(
+        blank=True,
+        help_text="Detailed description of the ingredient"
+    )
+
+    def __str__(self):
+        return self.name
