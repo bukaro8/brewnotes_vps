@@ -5,7 +5,7 @@ from django.db import migrations
 
 def load_initial_data(apps, schema_editor):
     DrinkType = apps.get_model('notes', 'DrinkType')
-    Ingredients = apps.get_model('notes', 'Ingredients')
+    Ingredient = apps.get_model('notes', 'Ingredient')
 
     # Load drink types
     drink_types = [
@@ -50,7 +50,7 @@ def load_initial_data(apps, schema_editor):
         DrinkType.objects.get_or_create(name=name, description=desc)
 
     for name, desc in ingredients:
-        Ingredients.objects.get_or_create(name=name, description=desc)
+        Ingredient.objects.get_or_create(name=name, description=desc)
 
 
 class Migration(migrations.Migration):
