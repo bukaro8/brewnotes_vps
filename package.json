@@ -1,0 +1,25 @@
+{
+  "name": "django-docker",
+  "version": "1.0.0",
+  "description": "run  docker compose exec web  python manage.py  makemigrations run  docker compose exec web  python manage.py  migrate      create and empty migration to preload data     docker compose exec web python manage.py makemigrations --empty notes --name load_initial_data Edit notes/migrations/0002_load_initial_data.py for static/global/data/data.py this file contains data to feed your app (this step is optional but recomended)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bukaro8/brewnotes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bukaro8/brewnotes/issues"
+  },
+  "homepage": "https://github.com/bukaro8/brewnotes#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

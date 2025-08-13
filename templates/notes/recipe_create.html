@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block title %}
+<title>Create Recipe</title>
+{% endblock %} {% block content %}
+<h1>Create Recipe Form</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h3>Ingredients</h3>
+    {{ formset.management_form }}
+
+    <div id="formset-area">
+        {% for subform in formset %}
+            <div class="ingredient-form">
+                {{ subform.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-ingredient">Add Ingredient</button>
+    <button type="submit">Save Recipe</button>
+</form>
+<a href={% url 'home' %}>Back to List</a>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formsetArea = document.getElementById('formset-area');
+        const addButton = document.getElementById('add-ingredient');
+        const totalForms = document.querySelector('#id_' + '{{ formset.prefix }}' + '-TOTAL_FORMS');
+        
+        addButton.addEventListener('click', function() {
+            const formCount = parseInt(totalForms.value);
+            const emptyFormHtml = `{{ formset.empty_form.as_p|escapejs }}`.replace(/__prefix__/g, formCount);
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('ingredient-form');
+            newDiv.innerHTML = emptyFormHtml;
+            formsetArea.appendChild(newDiv);
+            totalForms.value = formCount + 1;
+        });
+    });
+</script>
+{% endblock %}

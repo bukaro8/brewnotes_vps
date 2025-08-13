@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 
@@ -7,6 +8,12 @@ from django.utils import timezone
 
 
 class DrinkType(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='drink_types',
+        help_text="Creator of this drink type"
+    )
     name = models.CharField(
         max_length=100,
         unique=True,
@@ -21,6 +28,12 @@ class DrinkType(models.Model):
 
 
 class Ingredient(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='ingredients',
+        help_text="Creator of this ingredient"
+    )
     name = models.CharField(max_length=100)
     description = models.TextField(
         blank=True,
@@ -52,9 +65,10 @@ class Recipe(models.Model):
         blank=True,
         help_text="Detailed description of the recipe"
     )
-    ingredients = models.JSONField(
-        default=list,
-        help_text="List of ingredients "
+    ingredients = models.ManyToManyField(
+        'Ingredient',
+        through='RecipeIngredient',
+        related_name='recipes'
     )
     target_og = models.DecimalField(
         max_digits=4,
@@ -129,3 +143,36 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f"{self.name} (by {self.user.username})"
+
+
+class RecipeIngredient(models.Model):
+    UNIT_CHOICES = [
+        ('g', 'grams'),
+        ('ml', 'millilitres'),
+    ]
+
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='recipe_ingredients'
+    )
+    ingredient = models.ForeignKey(
+        'Ingredient',
+        on_delete=models.CASCADE
+    )
+    quantity = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        help_text="Amount of ingredient"
+    )
+    unit = models.CharField(
+        max_length=2,
+        choices=UNIT_CHOICES,
+        help_text="Measurement unit"
+    )
+
+    class Meta:
+        unique_together = ('recipe', 'ingredient')
+
+    def __str__(self):
+        return f"{self.quantity} {self.get_unit_display()} {self.ingredient.name} for {self.recipe.name}"

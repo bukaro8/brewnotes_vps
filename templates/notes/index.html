@@ -3,5 +3,9 @@
 <title>Home</title>
 {% endblock %}
 {% block content %}
-	<h1>Holita.</h1>
+{% if user.is_authenticated %}
+<h1>Estoy dentro</h1>
+{% else %}
+<h1>Holita.</h1>
+{% endif %}
 {% endblock %}
