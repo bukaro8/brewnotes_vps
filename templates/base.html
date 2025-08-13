@@ -1,148 +1,163 @@
 {% load static %} {% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-			crossorigin="anonymous"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-		/>
-		<link
-			rel="icon"
-			type="image/x-icon"
-			href="{% static 'global/img/favicon/favicon.ico' %}"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="{% static 'global/img/favicon/favicon-32x32.png' %}"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="{% static 'global/img/favicon/favicon-16x16.png' %}"
-		/>
-		<link
-			rel="manifest"
-			href="{% static 'global/img/favicon/site.webmanifest' %}"
-		/>
-		<link rel="stylesheet" href="{% static 'global/css/main.css' %}" />
-		{% block title %} {% endblock %} {% block extra_head %} {% endblock %}
-	</head>
-	<header class="p-3 mb-3 border-bottom header">
-		<div class="container">
-			<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between flex-column flex-lg-row"
-			>
-				<a class="navbar-brand" href="{% url 'home' %}">
-					<img
-						src="{% static 'global/img/logo.png' %}"
-						alt="brewnotes logo"
-						class="logo"
-					/>
-				</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-				<!-- Mobile menu button (shown on screens < lg) -->
-				<div class="dropdown text-end d-lg-none">
-					<button
-						class="btn p-0 border-0"
-						type="button"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="32"
-							height="32"
-							fill=" #F8F5F0"
-							class="bi bi-list"
-							viewBox="0 0 16 16"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-							/>
-						</svg>
-					</button>
-					<!-- In your navbar (both mobile and desktop versions) -->
+    <!-- Bootstrap CSS (no SRI to avoid blocking issues) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-					
-				</div>
+    <!-- Google Material Symbols -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
 
-				<!-- Desktop menu (shown only on lg+) -->
-				<div class="d-none d-lg-flex">
-					<!-- Desktop Menu (shown on lg+ screens) -->
-					<ul class="nav nav-pills d-none d-lg-flex align-items-center">
-						{% if user.is_authenticated %}
-						<!-- Profile -->
-						<li class="nav-item mx-2">
-							<a
-								class="nav-link d-flex align-items-center text-reset"
-								href="{% url 'profile' %}"
-							>
-								{% with social_account=user.socialaccount_set.all.0 %}
-								   {% if social_account and social_account.get_avatar_url %}
-								<img
-									src="{{ social_account.get_avatar_url }}"
-									alt="Profile"
-									class="rounded-circle me-2"
-									width="33"
-									height="33"
-								/>
-								{% else %}
-								<span class="material-symbols-outlined me-2"
-									>account_circle</span
-								>
-								{% endif %} {% endwith %}
-								<span>Profile</span>
-							</a>
-						</li>
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{% static 'global/img/favicon/favicon.ico' %}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'global/img/favicon/favicon-32x32.png' %}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'global/img/favicon/favicon-16x16.png' %}" />
+    <link rel="manifest" href="{% static 'global/img/favicon/site.webmanifest' %}" />
 
-						<!-- Sign Out -->
-						<li class="nav-item mx-2">
-							<a
-								class="nav-link d-flex align-items-center text-white"
-								href="{% url 'account_logout' %}"
-							>
-								<span class="material-symbols-outlined me-2">logout</span>
-								<span>Sign out</span>
-							</a>
-						</li>
-						{% else %}
-						<!-- Login with Google - Icon Only -->
-						<li class="nav-item">
-							<a
-								class="btn btn-google d-flex align-items-center py-2 px-3"
-								href="{% provider_login_url 'google' %}"
-							>
-								<span class="material-symbols-outlined me-2 text-white"
-									>login</span
-								>
-								<span class="text-white fw-medium">Login</span>
-							</a>
-						</li>
-						{% endif %}
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
+    <!-- Your custom styles (keeps brand colors like .header, .text-hop, .bg-malt, etc.) -->
+    <link rel="stylesheet" href="{% static 'global/css/main.css' %}" />
 
-	<body>
-		<main class="container">{% block content %} {% endblock %}</main>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-			crossorigin="anonymous"
-		></script>
-	</body>
+    {% block title %}{% endblock %}
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="p-3 mb-3 border-bottom header">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between flex-column flex-lg-row">
+          <!-- Logo -->
+          <a class="navbar-brand mb-2 mb-lg-0" href="{% url 'home' %}">
+            <img
+              src="{% static 'global/img/logo.png' %}"
+              alt="brewnotes logo"
+              class="logo"
+            />
+          </a>
+
+          <!-- Mobile burger + collapsible menu -->
+          <div class="d-lg-none w-100">
+            <div class="d-flex justify-content-center">
+              <button
+                class="btn p-0 border-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mobileNav"
+                aria-controls="mobileNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <!-- Burger icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#F8F5F0" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Collapsible items -->
+            <div id="mobileNav" class="collapse mt-2">
+              <ul class="nav flex-column text-center gap-2">
+                {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-reset" href="{% url 'profile' %}">
+                      {% with social_account=user.socialaccount_set.all.0 %}
+                        {% if social_account and social_account.get_avatar_url %}
+                          <img
+                            src="{{ social_account.get_avatar_url }}"
+                            alt="Profile"
+                            class="rounded-circle me-2"
+                            width="28"
+                            height="28"
+                          />
+                        {% else %}
+                          <span class="material-symbols-outlined me-2">account_circle</span>
+                        {% endif %}
+                      {% endwith %}
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'account_logout' %}">
+                      <span class="material-symbols-outlined me-2">logout</span>
+                      <span>Sign out</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a class="btn btn-google d-inline-flex align-items-center py-2 px-3 mx-auto" href="{% provider_login_url 'google' %}">
+                      <span class="material-symbols-outlined me-2 text-white">login</span>
+                      <span class="text-white fw-medium">Login</span>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Desktop menu -->
+          <div class="d-none d-lg-flex">
+            <ul class="nav nav-pills d-none d-lg-flex align-items-center">
+              {% if user.is_authenticated %}
+                <!-- Profile -->
+                <li class="nav-item mx-2">
+                  <a class="nav-link d-flex align-items-center text-reset" href="{% url 'profile' %}">
+                    {% with social_account=user.socialaccount_set.all.0 %}
+                      {% if social_account and social_account.get_avatar_url %}
+                        <img
+                          src="{{ social_account.get_avatar_url }}"
+                          alt="Profile"
+                          class="rounded-circle me-2"
+                          width="33"
+                          height="33"
+                        />
+                      {% else %}
+                        <span class="material-symbols-outlined me-2">account_circle</span>
+                      {% endif %}
+                    {% endwith %}
+                    <span>Profile</span>
+                  </a>
+                </li>
+
+                <!-- Sign Out -->
+                <li class="nav-item mx-2">
+                  <a class="nav-link d-flex align-items-center text-white" href="{% url 'account_logout' %}">
+                    <span class="material-symbols-outlined me-2">logout</span>
+                    <span>Sign out</span>
+                  </a>
+                </li>
+              {% else %}
+                <!-- Login -->
+                <li class="nav-item">
+                  <a class="btn btn-google d-flex align-items-center py-2 px-3" href="{% provider_login_url 'google' %}">
+                    <span class="material-symbols-outlined me-2 text-white">login</span>
+                    <span class="text-white fw-medium">Login</span>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+
+   
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
 </html>
