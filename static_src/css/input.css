@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global page bg for forms */
+@layer base {
+  body { @apply bg-offwhite text-gray-900; }
+}
+
+/* Reusable form components */
+@layer components {
+  .form-card {
+    @apply max-w-2xl mx-auto rounded-xl border border-warmgray bg-offwhite/70
+           shadow-sm p-6 md:p-8 backdrop-blur-sm;
+  }
+
+  .form-title { @apply text-2xl font-semibold text-hop mb-4; }
+  .form-subtitle { @apply text-sm text-gray-600 mb-6; }
+
+  .form-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6; }
+
+  .form-label { @apply block text-sm font-medium text-gray-800 mb-1; }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    @apply w-full rounded-lg border border-warmgray bg-white/90
+           px-3 py-2 text-gray-900 shadow-xs
+           focus:outline-none focus:ring-2 focus:ring-purple/50 focus:border-purple
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .form-help { @apply mt-1 text-xs text-gray-500; }
+
+  .form-error {
+    @apply mt-1 text-sm text-red-700;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium
+           transition-colors focus:outline-none focus:ring-2 focus:ring-purple/40
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    /* Malt Gold button with dark text */
+    @apply bg-malt text-gray-900 hover:bg-malt/90 active:bg-malt/80;
+  }
+
+  .btn-secondary {
+    /* Hop Green outline */
+    @apply border border-hop text-hop bg-transparent hover:bg-hop/10 active:bg-hop/20;
+  }
+
+  .link {
+    @apply text-purple hover:underline hover:text-purple/90;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full bg-warmgray/60 px-3 py-1 text-xs text-gray-800;
+  }
+
+  .divider { @apply h-px bg-warmgray/70 my-4; }
+}
