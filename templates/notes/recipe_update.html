@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}<title>Update Recipe</title>{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="fs-3 fw-semibold text-hop mb-3">Edit Recipe</h1>
+
+  <form action="" method="post" id="auto-style-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="d-flex gap-2 mt-3">
+      <a href="{% url 'list_recipe' %}" class="btn btn-outline-secondary">Cancel</a>
+      <button type="submit" class="btn btn-outline-success">Update</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

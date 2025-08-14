@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}
+<title>Delete Article</title>
+{% endblock %} {% block content %}
+<div class="d-flex flex-column align-items-center">
+	<h1>Delete Recipe</h1>
+	<p>Are you sure you want to delete '{{recipe.name}}'</p>
+	<form action="" method="post">
+		{% csrf_token %}
+		<button type="submit" class="btn btn-danger">Delete</button>
+	</form>
+	<a href="{% url 'list_recipe' %}">No. Take me back</a>
+
+</div>
+
+{% endblock %}
