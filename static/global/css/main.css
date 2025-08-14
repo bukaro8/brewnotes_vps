@@ -9,6 +9,13 @@
 }
 
 
+
+.logo{
+  height: clamp(200px, 18vw, 250px);
+  width: auto !important;   
+  display: block;
+}
+
 .header .nav-link,
 .header .navbar-brand,
 .header .btn,
