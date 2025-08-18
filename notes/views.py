@@ -89,12 +89,11 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'notes/recipe_update.html'
     model = Recipe
     fields = [
-        'name',
-        'description',
+        'name', 'description', 'drink_type',
         'target_og', 'target_fg',
-        'start_fermentation', 'end_fermentation',
-        'start_coldcrash', 'end_coldcrash',
-        'start_conditioning', 'end_conditioning',
+        'fermentation_start', 'fermentation_end',
+        'coldcrash_start', 'coldcrash_end',
+        'conditioning_start', 'conditioning_end',
         'brewing_notes', 'testing_notes',
         'verdict',
     ]
