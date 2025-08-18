@@ -2,37 +2,55 @@
 {% load socialaccount %}
 
 {% block content %}
-<div class="col-md-4 mx-auto">
-    <h2>Profile</h2>
-    <h3 class="text-secondary">Welcome {{ user.username }}!!</h3>
-    <hr>
-    
-    <!-- Profile Picture Section -->
-    <div class="text-center mb-4">
-        {% with social_account=user.socialaccount_set.all.0 %}
-        {% if social_account and social_account.get_avatar_url %}
-            <img src="{{ social_account.get_avatar_url }}" 
-                 alt="Profile Picture" 
-                 class="rounded-circle border"
-                 width="150"
-                 height="150">
-        {% else %}
-            <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle border" 
-                 style="width: 150px; height: 150px;">
-                <span class="material-symbols-outlined text-muted" style="font-size: 60px;">
-                    account_circle
-                </span>
-            </div>
-        {% endif %}
-        {% endwith %}
-    </div>
+<div class="col-md-6 col-lg-5 mx-auto py-3">
+  <h2 class="text-center mb-1">Profile</h2>
+  <h3 class="text-secondary text-center">Welcome {{ user.username }}!</h3>
+  <hr>
 
-    <div class="mt-3">
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Name:</strong> {{ user.first_name|default:"Not provided" }}</p>
-        <p><strong>Surname:</strong> {{ user.last_name|default:"Not provided" }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-    </div>
-    <hr>
+  <!-- Profile Picture -->
+  <div class="text-center mb-4">
+    {% with social_account=user.socialaccount_set.all.0 %}
+      {% if social_account and social_account.get_avatar_url %}
+        <img
+          src="{{ social_account.get_avatar_url }}"
+          alt="Profile Picture"
+          class="rounded-circle border"
+          width="150" height="150">
+      {% else %}
+        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle border"
+             style="width:150px;height:150px;">
+          <span class="material-symbols-outlined text-muted" style="font-size:60px;">account_circle</span>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Basic info -->
+  <div class="mt-3">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Name:</strong> {{ user.first_name|default:"Not provided" }}</p>
+    <p><strong>Surname:</strong> {{ user.last_name|default:"Not provided" }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+  </div>
+
+  <hr>
+
+  <!-- Actions -->
+  <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+    <a href="{% url 'create_recipe' %}" class="btn btn-success d-inline-flex align-items-center gap-1 w-100 w-sm-auto">
+      <span class="material-symbols-outlined">sports_bar</span>
+      <span>Create recipe</span>
+    </a>
+
+    <a href="{% url 'list_recipe' %}" class="btn btn-outline-primary d-inline-flex align-items-center gap-1 w-100 w-sm-auto">
+      <span class="material-symbols-outlined">menu_book</span>
+      <span>My recipes</span>
+    </a>
+
+    <a href="{% url 'account_logout' %}" class="btn btn-outline-danger d-inline-flex align-items-center gap-1 w-100 w-sm-auto">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Sign out</span>
+    </a>
+  </div>
 </div>
 {% endblock %}
