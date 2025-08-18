@@ -1,18 +1,169 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'global/css/landing.css' %}">
+{% endblock %}
+
 {% block title %}<title>Update Recipe</title>{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-  <h1 class="fs-3 fw-semibold text-hop mb-3">Edit Recipe</h1>
+<div class="d-flex flex-column align-items-center">
+  <h1>Update Recipe</h1>
 
-  <form action="" method="post" id="auto-style-form">
+  <form method="post" class="w-100" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
 
-    <div class="d-flex gap-2 mt-3">
+    <!-- divider -->
+    <div class="section-rule my-4"></div>
+
+    <!-- Name / Description / Drink type -->
+    <div class="row g-4 d-flex ">
+      <div class="col-12 text-center">
+        <label for="{{ form.name.id_for_label }}" class="form-label">Recipe name</label>
+        {{ form.name }}
+        {% for e in form.name.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+
+      <div class="col-12 text-center">
+        <label for="{{ form.description.id_for_label }}" class="form-label ">Description</label>
+        {{ form.description }}
+        {% for e in form.description.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+<div class="col-12  d-flex jusfify-content-center align-items-center">
+<div class="col-0 col-md-4"></div>
+  <div class="col-12 col-md-4 text-center">
+    <label for="{{ form.drink_type.id_for_label }}" class="form-label">Drink type</label>
+    {{ form.drink_type }}
+    {% for e in form.drink_type.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+  </div>
+</div>
+    </div>
+
+    <!-- Image -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-5 fw-semibold text-hop my-2 text-center">Image</h2>
+    <div class="row g-4  d-flex justify-content-center">
+      <div class="col-12 col-md-6 w-full ">
+        <label for="{{ form.image.id_for_label }}" class="form-label">Recipe image</label>
+          {{ form.image }}
+        {% for e in form.image.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        {% if recipe.image %}
+          <div class="mt-2 ">
+            <img src="{{ recipe.image.url }}" class="img-fluid rounded text-center" alt="{{ recipe.name }}">
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Targets -->
+    <div class="section-rule my-4 d-flex "></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Targets</h2>
+    <div class="row g-4 ">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.target_og.id_for_label }}" class="form-label mb-1">Original Gravity</label>
+        {{ form.target_og }}
+        {% for e in form.target_og.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="{{ form.target_fg.id_for_label }}" class="form-label mb-1">Final Gravity</label>
+        {{ form.target_fg }}
+        {% for e in form.target_fg.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <!-- Fermentation -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Fermentation</h2>
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.fermentation_start.id_for_label }}" class="form-label mb-1">Start fermentation(yyyy-mm-dd)</label>
+        {{ form.fermentation_start }}
+        {% for e in form.fermentation_start.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="{{ form.fermentation_end.id_for_label }}" class="form-label mb-1">End fermentation(yyyy-mm-dd)</label>
+        {{ form.fermentation_end }}
+        {% for e in form.fermentation_end.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <!-- Cold crash -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Cold crash</h2>
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.coldcrash_start.id_for_label }}" class="form-label mb-1">Start cold crash(yyyy-mm-dd)</label>
+        {{ form.coldcrash_start }}
+        {% for e in form.coldcrash_start.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="{{ form.coldcrash_end.id_for_label }}" class="form-label mb-1">End cold crash(yyyy-mm-dd)</label>
+        {{ form.coldcrash_end }}
+        {% for e in form.coldcrash_end.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <!-- Conditioning -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Conditioning</h2>
+    <div class="row g-4 mb-4">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.conditioning_start.id_for_label }}" class="form-label mb-1">Start conditioning(yyyy-mm-dd)</label>
+        {{ form.conditioning_start }}
+        {% for e in form.conditioning_start.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="{{ form.conditioning_end.id_for_label }}" class="form-label mb-1">End conditioning(yyyy-mm-dd)</label>
+        {{ form.conditioning_end }}
+        {% for e in form.conditioning_end.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Notes</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.brewing_notes.id_for_label }}" class="form-label mb-2">Brewing notes</label>
+        {{ form.brewing_notes }}
+        {% for e in form.brewing_notes.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="{{ form.testing_notes.id_for_label }}" class="form-label mb-2">Testing notes</label>
+        {{ form.testing_notes }}
+        {% for e in form.testing_notes.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="section-rule my-4"></div>
+    <div class="py-4 text-center">
+      <span class="d-block mb-2">Verdict</span>
+      <div class="rating" role="radiogroup" aria-label="Verdict (1 to 5 stars)">
+        <input type="radio" id="star5" name="verdict" value="5" {% if recipe.verdict == 5 %}checked{% endif %}><label for="star5" title="5 stars">★</label>
+        <input type="radio" id="star4" name="verdict" value="4" {% if recipe.verdict == 4 %}checked{% endif %}><label for="star4" title="4 stars">★</label>
+        <input type="radio" id="star3" name="verdict" value="3" {% if recipe.verdict == 3 %}checked{% endif %}><label for="star3" title="3 stars">★</label>
+        <input type="radio" id="star2" name="verdict" value="2" {% if recipe.verdict == 2 %}checked{% endif %}><label for="star2" title="2 stars">★</label>
+        <input type="radio" id="star1" name="verdict" value="1" {% if recipe.verdict == 1 %}checked{% endif %}><label for="star1" title="1 star">★</label>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-center gap-3 pb-3">
       <a href="{% url 'list_recipe' %}" class="btn btn-outline-secondary">Cancel</a>
-      <button type="submit" class="btn btn-outline-success">Update</button>
+      <button type="submit" class="btn btn-outline-success rounded-3 px-4 py-2">Save Changes</button>
     </div>
   </form>
 </div>
+
+<!-- Styles -->
+<style>
+  .section-rule{height:1px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.18),transparent);border:0}
+  .rating{display:inline-flex;flex-direction:row-reverse;gap:.25rem}
+  .rating>input{display:none}
+  .rating>label{font-size:1.75rem;line-height:1;color:#D3CEC4;cursor:pointer}
+  .rating>input:checked~label{color:#D4A017}
+  .rating>label:hover,.rating>label:hover~label{color:#D4A017}
+</style>
 {% endblock %}

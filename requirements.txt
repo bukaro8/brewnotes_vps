@@ -8,3 +8,6 @@ cryptography
 PyJWT
 pycparser==2.22
 django-allauth
+
+cloudinary>=1.41
+django-cloudinary-storage>=0.3.0

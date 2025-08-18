@@ -1,36 +1,43 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
-{% block extra_head %}
- <link rel="stylesheet" href="{% static 'global/css/landing.css' %}" />
-{% endblock %}
-{% block title %}
-<title>Create Recipe</title>
-{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'global/css/landing.css' %}">{% endblock %}
+{% block title %}<title>Create Recipe</title>{% endblock %}
 
 {% block content %}
-
 <div class="d-flex flex-column align-items-center">
-  <h1 class="">Create Recipe</h1>
+  <h1>Create Recipe</h1>
 
-  <form method="post" class="w-100">
+  <form method="post" class="w-100" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <!-- divider -->
     <div class="section-rule my-4"></div>
 
-    <!-- Name & Description -->
     <div class="row g-4">
-      <div class="col-12 col-md-6">
+      <div class="col-12 text-center ">
         <label for="id_name" class="form-label">Recipe name</label>
-        <input id="id_name" name="name" type="text" class="form-control" />
+        {{ form.name }}
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12 text-center">
         <label for="id_description" class="form-label">Description</label>
-        <textarea id="id_description" name="description" rows="1" class="form-control"></textarea>
+        {{ form.description }}
+      </div>
+
+      <div class="col-12 ">
+        <label for="{{ form.drink_type.id_for_label }}" class="form-label">Drink type</label>
+        {{ form.drink_type }}
       </div>
     </div>
 
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-5 fw-semibold text-hop my-2 text-center">Image</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <label for="{{ form.image.id_for_label }}" class="form-label">Recipe image</label>
+        {{ form.image }}
+        <div class="form-text">JPEG/PNG/WebP, up to ~10MB.</div>
+      </div>
+    </div>
     <!-- Targets -->
     <div class="section-rule my-4"></div>
 
@@ -39,12 +46,12 @@
     <div class="row g-4">
       <div class="col-12 col-md-6">
         <label for="id_target_og" class="form-label mb-1">Original Gravity</label>
-        <input id="id_target_og" name="target_og" type="text" class="form-control border-warmgray bg-white" />
+        <input placeholder="1.050" id="id_target_og" name="target_og" type="number" step="0.001" class="form-control no-spinner border-warmgray bg-white">
       </div>
 
       <div class="col-12 col-md-6">
         <label for="id_target_fg" class="form-label mb-1">Final Gravity</label>
-        <input id="id_target_fg" name="target_fg" type="text" class="form-control border-warmgray bg-white" />
+        <input placeholder="1.001" id="id_target_fg" name="target_fg" type="number" step="0.001" class="form-control no-spinner border-warmgray bg-white">
       </div>
     </div>
 
@@ -54,12 +61,12 @@
     <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Fermentation</h2>
     <div class="row g-4 mb-4">
       <div class="col-12 col-md-6">
-        <label for="id_start_fermentation" class="form-label mb-1">Start fermentation</label>
-        <input id="id_start_fermentation" name="start_fermentation" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_fermentation_start" class="form-label mb-1">Start fermentation</label>
+        <input id="id_fermentation_start" name="fermentation_start" type="date" class="form-control border-warmgray bg-white">
       </div>
       <div class="col-12 col-md-6">
-        <label for="id_end_fermentation" class="form-label mb-1">End fermentation</label>
-        <input id="id_end_fermentation" name="end_fermentation" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_fermentation_end" class="form-label mb-1">End fermentation</label>
+        <input id="id_fermentation_end" name="fermentation_end" type="date" class="form-control border-warmgray bg-white">
       </div>
     </div>
 
@@ -69,12 +76,12 @@
     <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Cold crash</h2>
     <div class="row g-4 mb-4">
       <div class="col-12 col-md-6">
-        <label for="id_start_coldcrash" class="form-label mb-1">Start cold crash</label>
-        <input id="id_start_coldcrash" name="start_coldcrash" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_coldcrash_start" class="form-label mb-1">Start cold crash</label>
+        <input id="id_coldcrash_start" name="coldcrash_start" type="date" class="form-control border-warmgray bg-white">
       </div>
       <div class="col-12 col-md-6">
-        <label for="id_end_coldcrash" class="form-label mb-1">End cold crash</label>
-        <input id="id_end_coldcrash" name="end_coldcrash" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_coldcrash_end" class="form-label mb-1">End cold crash</label>
+        <input id="id_coldcrash_end" name="coldcrash_end" type="date" class="form-control border-warmgray bg-white">
       </div>
     </div>
 
@@ -84,14 +91,34 @@
     <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Conditioning</h2>
     <div class="row g-4 mb-4">
       <div class="col-12 col-md-6">
-        <label for="id_start_conditioning" class="form-label mb-1">Start conditioning</label>
-        <input id="id_start_conditioning" name="start_conditioning" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_conditioning_start" class="form-label mb-1">Start conditioning</label>
+        <input id="id_conditioning_start" name="conditioning_start" type="date" class="form-control border-warmgray bg-white">
       </div>
       <div class="col-12 col-md-6">
-        <label for="id_end_conditioning" class="form-label mb-1">End conditioning</label>
-        <input id="id_end_conditioning" name="end_conditioning" type="date" class="form-control border-warmgray bg-white" />
+        <label for="id_conditioning_end" class="form-label mb-1">End conditioning</label>
+        <input id="id_conditioning_end" name="conditioning_end" type="date" class="form-control border-warmgray bg-white">
       </div>
     </div>
+
+    <!-- Ingredients -->
+    <div class="section-rule my-4"></div>
+    <h2 class="fs-4 fw-semibold text-hop my-3 text-center">Ingredients</h2>
+
+    {% if formset %}
+      {{ formset.management_form }}
+      <div id="formset-area" class="vstack gap-3">
+        {% for f in formset %}
+          <div class="border rounded-3 p-3">
+            {{ f.as_p }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <button type="button" id="add-ingredient" class="btn btn-outline-primary btn-sm">
+          + Add ingredient
+        </button>
+      </div>
+    {% endif %}
 
     <!-- Notes -->
     <div class="section-rule my-4"></div>
@@ -116,17 +143,17 @@
     <div class="py-4 text-center">
       <span class="d-block mb-2">Verdict</span>
       <div class="rating" role="radiogroup" aria-label="Verdict (1 to 5 stars)">
-        <input type="radio" id="star5" name="verdict" value="5" /><label for="star5" title="5 stars">★</label>
-        <input type="radio" id="star4" name="verdict" value="4" /><label for="star4" title="4 stars">★</label>
-        <input type="radio" id="star3" name="verdict" value="3" /><label for="star3" title="3 stars">★</label>
-        <input type="radio" id="star2" name="verdict" value="2" /><label for="star2" title="2 stars">★</label>
-        <input type="radio" id="star1" name="verdict" value="1" /><label for="star1" title="1 star">★</label>
+        <input type="radio" id="star5" name="verdict" value="5"><label for="star5" title="5 stars">★</label>
+        <input type="radio" id="star4" name="verdict" value="4"><label for="star4" title="4 stars">★</label>
+        <input type="radio" id="star3" name="verdict" value="3"><label for="star3" title="3 stars">★</label>
+        <input type="radio" id="star2" name="verdict" value="2"><label for="star2" title="2 stars">★</label>
+        <input type="radio" id="star1" name="verdict" value="1"><label for="star1" title="1 star">★</label>
       </div>
     </div>
 
     <!-- Actions -->
     <div class="d-flex justify-content-center gap-3 pb-3">
-      <a href="/" class="btn btn-outline-secondary">Cancel</a>
+      <a href="{% url 'list_recipe' %}" class="btn btn-outline-secondary">Cancel</a>
       <button type="submit" class="btn btn-outline-success rounded-3 px-4 py-2">Save Recipe</button>
     </div>
 
@@ -135,6 +162,14 @@
 
 <!-- Styles -->
 <style>
+  .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  .no-spinner {
+      -moz-appearance: textfield;
+    }
   /* pretty section divider to replace <hr> */
   .section-rule {
     height: 1px;
@@ -151,6 +186,11 @@
 </style>
 
 <script>
+  // Simple helper to add a class to a Django form field in templates
+  // (works because we used the filter above; if you don't have widget_tweaks, remove the filter and style in forms.py)
+</script>
+
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const formsetArea = document.getElementById('formset-area');
     const addButton = document.getElementById('add-ingredient');
@@ -161,7 +201,7 @@
         const formCount = parseInt(totalForms.value);
         const emptyFormHtml = `{{ formset.empty_form.as_p|escapejs }}`.replace(/__prefix__/g, formCount);
         const newDiv = document.createElement('div');
-        newDiv.classList.add('ingredient-form');
+        newDiv.classList.add('border','rounded-3','p-3','ingredient-form','mt-3');
         newDiv.innerHTML = emptyFormHtml;
         formsetArea.appendChild(newDiv);
         totalForms.value = formCount + 1;

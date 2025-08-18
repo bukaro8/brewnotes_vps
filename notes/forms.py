@@ -21,8 +21,22 @@ class RecipeForm(forms.ModelForm):
             'conditioning_end',
             'brewing_notes',
             'testing_notes',
-            'verdict'
+            'verdict',
+            'image',
         ]
+        widgets = {'drink_type': forms.Select(attrs={'class': 'form-select', 'id': 'id_drink_type'}),
+                   'image': forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+
+                   }
+
+        def clean_image(self):
+            f = self.cleaned_data.get('image')
+            if not f:
+                return f
+            max_mb = 10
+            if getattr(f, 'size', 0) > max_mb * 1024 * 1024:
+                raise forms.ValidationError(f'Image must be ≤ {max_mb}MB.')
+            return f
 
 
 class RecipeIngredientForm(forms.ModelForm):

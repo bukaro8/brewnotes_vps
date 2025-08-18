@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import home, profile
 from django.shortcuts import redirect
-from .views import RecipeCreateView, RecipeListView, RecipeUpdateView, RecipeDeleteView
+from .views import RecipeCreateView, RecipeListView, RecipeUpdateView, RecipeDeleteView, RecipeDetailView
 from allauth.socialaccount.providers.google.views import oauth2_login
 
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('recipe/create/', RecipeCreateView.as_view(), name='create_recipe'),
     path('recipes/', RecipeListView.as_view(), name='list_recipe'),
+    path('recipe/<int:pk>/', RecipeDetailView.as_view(), name='recipe_detail'),
     path('recipe/<int:pk>/update/',
          RecipeUpdateView.as_view(), name='update_recipe'),
     path('recipe/<int:pk>/delete/',

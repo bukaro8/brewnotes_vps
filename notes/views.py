@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.db.models import Q
 from .forms import RecipeForm, RecipeIngredientForm
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from notes.models import Ingredient, Recipe, DrinkType, RecipeIngredient
+from decimal import Decimal, ROUND_HALF_UP
 # Create your views here.
 
 RecipeIngredientFormSet = inlineformset_factory(
@@ -86,22 +87,16 @@ class RecipeListView(LoginRequiredMixin, ListView):
 
 
 class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'notes/recipe_update.html'
     model = Recipe
-    fields = [
-        'name', 'description', 'drink_type',
-        'target_og', 'target_fg',
-        'fermentation_start', 'fermentation_end',
-        'coldcrash_start', 'coldcrash_end',
-        'conditioning_start', 'conditioning_end',
-        'brewing_notes', 'testing_notes',
-        'verdict',
-    ]
+    form_class = RecipeForm
+    template_name = 'notes/recipe_update.html'
     success_url = reverse_lazy('home')
     context_object_name = 'recipe'
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
     def test_func(self):
-        return self.request.user == self.get_object().user
+        return self.get_object().user == self.request.user
 
 
 class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -112,3 +107,24 @@ class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user == self.get_object().user
+
+
+class RecipeDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Recipe
+    template_name = 'notes/recipe_detail.html'
+    context_object_name = 'recipe'
+
+    def test_func(self):
+        return self.get_object().user == self.request.user
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        og = self.object.target_og
+        fg = self.object.target_fg
+        abv = None
+        if og is not None and fg is not None:
+            # (OG − FG) × 131.25, rounded to 2 decimals
+            abv = (og - fg) * Decimal('131.25')
+            abv = abv.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        ctx['abv'] = abv
+        return ctx

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -65,6 +66,8 @@ class Recipe(models.Model):
         blank=True,
         help_text="Detailed description of the recipe"
     )
+    image = CloudinaryField('image', blank=True,
+                            null=True, folder='brewnotes/recipes')
     ingredients = models.ManyToManyField(
         'Ingredient',
         through='RecipeIngredient',

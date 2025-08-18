@@ -45,8 +45,16 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    'cloudinary',
+    'cloudinary_storage',
+
 
 ]
+
+# Use Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

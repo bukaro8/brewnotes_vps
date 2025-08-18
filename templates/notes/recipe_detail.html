@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>{{ recipe.name|title }} • BrewNotes</title>{% endblock %}
+
+{% block content %}
+<div class="py-4">
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-lg-10">
+      <div class="card shadow-sm">
+
+        {# --- Image inside the card, same width as the details --- #}
+        {% if recipe.image %}
+          <img
+            src="{{ recipe.image.url }}"
+            alt="{{ recipe.name }}"
+            class="card-img-top object-fit-contain bg-light"
+            style="max-height: 360px;"
+          >
+        {% endif %}
+
+        <div class="card-body">
+          <div class="text-center mb-3">
+            <h1 class="fs-2 text-capitalize mb-1">{{ recipe.name }}</h1>
+            {% if recipe.drink_type %}
+              <p class="text-muted mb-0">{{ recipe.drink_type.name }}</p>
+            {% endif %}
+          </div>
+
+          {% if recipe.description %}
+            <p class="mb-3">{{ recipe.description }}</p>
+          {% endif %}
+
+          <!-- Targets (OG/FG) -->
+          <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+            <span class="badge text-bg-light">OG: <strong>{{ recipe.target_og|default:"—" }}</strong></span>
+            <span class="badge text-bg-light">FG: <strong>{{ recipe.target_fg|default:"—" }}</strong></span>
+          </div>
+
+          <!-- ABV box (approx) -->
+          {% if abv is not None %}
+            <div class="my-3 d-flex justify-content-center">
+              <div class="p-3 border rounded-3 text-center" style="min-width: 220px;">
+                <div class="small text-muted">ABV (approx)</div>
+                <div class="fs-5 fw-semibold">{{ abv }}%</div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Verdict -->
+          {% if recipe.verdict %}
+            <div class="text-center mb-3" aria-label="Rating">
+              {% for _ in "12345" %}
+                {% if forloop.counter <= recipe.verdict %}
+                  <span class="text-warning fs-4">★</span>
+                {% else %}
+                  <span class="text-muted fs-4">★</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- Timeline -->
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <h6>Fermentation</h6>
+              <div class="small text-muted">Start: {{ recipe.fermentation_start|date:"M j, Y"|default:"—" }}</div>
+              <div class="small text-muted">End: {{ recipe.fermentation_end|date:"M j, Y"|default:"—" }}</div>
+            </div>
+            <div class="col-12 col-md-6">
+              <h6>Cold crash</h6>
+              <div class="small text-muted">Start: {{ recipe.coldcrash_start|date:"M j, Y"|default:"—" }}</div>
+              <div class="small text-muted">End: {{ recipe.coldcrash_end|date:"M j, Y"|default:"—" }}</div>
+            </div>
+            <div class="col-12 col-md-6">
+              <h6>Conditioning</h6>
+              <div class="small text-muted">Start: {{ recipe.conditioning_start|date:"M j, Y"|default:"—" }}</div>
+              <div class="small text-muted">End: {{ recipe.conditioning_end|date:"M j, Y"|default:"—" }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer bg-transparent d-flex justify-content-center gap-2">
+          <a href="{% url 'update_recipe' recipe.pk %}" class="btn btn-outline-secondary">Edit</a>
+          <a href="{% url 'delete_recipe' recipe.pk %}" class="btn btn-outline-danger">Delete</a>
+          <a href="{% url 'list_recipe' %}" class="btn btn-primary">Back to list</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
