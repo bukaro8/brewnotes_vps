@@ -70,7 +70,7 @@
               <ul class="nav flex-column text-center gap-2">
                 {% if user.is_authenticated %}
 								<li class="nav-item">
-                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'account_logout' %}">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'create_recipe' %}">
                       <span class="material-symbols-outlined">
                           sports_bar
                       </span>
@@ -79,7 +79,7 @@
                 </li>
 
 								<li class="nav-item">
-                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'account_logout' %}">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'list_recipe' %}">
                       <span class="material-symbols-outlined">
                           menu_book
                       </span>
@@ -130,7 +130,7 @@
             <ul class="nav nav-pills d-none d-lg-flex align-items-center">
               {% if user.is_authenticated %}
 							<li class="nav-item">
-                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'account_logout' %}">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'create_recipe' %}">
                       <span class="material-symbols-outlined">
                           sports_bar
                       </span>
@@ -139,7 +139,7 @@
                   </li>
 
 									<li class="nav-item">
-                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'account_logout' %}">
+                    <a class="nav-link d-flex align-items-center justify-content-center text-white" href="{% url 'list_recipe' %}">
                       <span class="material-symbols-outlined">
                           menu_book
                       </span>
