@@ -41,3 +41,14 @@ htmlcov/
 */migrations/__pycache__/
 */migrations/*.pyc
 */migrations/*.pyo
+
+
+caddy_data
+caddy_config
+data
+media
+staticfiles
+__pycache__
+*.pyc
+.DS_Store
+EOF

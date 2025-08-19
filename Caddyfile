@@ -1,0 +1,15 @@
+# Redirect www → root
+www.brewnotes.art {
+  redir https://brewnotes.art{uri}
+}
+
+# Main site over HTTPS, proxy to Django on port 8000
+brewnotes.art {
+  encode gzip
+  reverse_proxy web:8000{
+    header_up X-Forwarded-Proto {scheme}
+    header_up X-Forwarded-Host  {host}
+    header_up Host              {host}
+  }
+
+}

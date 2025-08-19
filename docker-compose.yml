@@ -20,18 +20,18 @@ services:
     env_file:
       - .env
     ports:
-      - "80:80"
+      - "127.0.0.1:5050:80"
     depends_on:
       - db
 
   web:
     build: .
     container_name: django
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn brewnotes.wsgi:application -b 0.0.0.0:8000 --workers 3 --timeout 60 --access-logfile - --error-logfile - --log-level debug --capture-output --forwarded-allow-ips="*"
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     env_file:
       - .env
     depends_on:
