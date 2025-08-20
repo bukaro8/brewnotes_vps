@@ -87,19 +87,7 @@ docker compose exec -T web python manage.py collectstatic --noinput
 - **Cards/Forms**: Use `#D3CEC4` (Warm Gray) as border color on `#F8F5F0` (Off-White) background
 - **Content Areas**: Use `#F8F5F0` (Off-White) as the primary background for content
 
-## Color Swatches
 
-<div align="center">
-  
-| Color Name         | Swatch                      | Hex Code  |
-|--------------------|-----------------------------|-----------|
-| Hop Green          | ![#5B8C3A](https://via.placeholder.com/40/5B8C3A/000000?text=+) | `#5B8C3A` |
-| Off-White          | ![#F8F5F0](https://via.placeholder.com/40/F8F5F0/000000?text=+) | `#F8F5F0` |
-| Malt Gold          | ![#D4A017](https://via.placeholder.com/40/D4A017/000000?text=+) | `#D4A017` |
-| Fermentation Purple| ![#6A4C93](https://via.placeholder.com/40/6A4C93/000000?text=+) | `#6A4C93` |
-| Warm Gray          | ![#D3CEC4](https://via.placeholder.com/40/D3CEC4/000000?text=+) | `#D3CEC4` |
-
-</div>
 ## ✨ Features
 | Feature               | Description                                | Implementation               |
 | --------------------- | ------------------------------------------ | ---------------------------- |
