@@ -15,6 +15,23 @@ Links/Interactive: Fermentation Purple #6A4C93.
 Cards/Forms: Warm Gray #D3CEC4 border on Off-White.
 # 🍺 BrewNotes — Homebrew Recipe & Batch Tracker
 ![App Screenshot](documentation/app-screenshot.jpg)
+
+## 💻  Deployment (Run Locally)
+
+```bash
+# Clone repository
+git clone git@github.com:bukaro8/brewnotes_vps.git
+cd brewnotes_vps
+
+# Prepare environment
+# Create .env next to docker-compose.yml (SECRET_KEY, POSTGRES_*, ALLOWED_HOSTS, etc.)
+
+# Start containers (Django + Postgres + Caddy)
+docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d --build
+
+# Apply migrations & collect static assets
+docker compose exec -T web python manage.py migrate
+docker compose exec -T web python manage.py collectstatic --noinput
 🐛 Bugs & Solutions
 | Bug                       | Symptom                                | Solution                                                                                       | Impact                    |
 | ------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- |
