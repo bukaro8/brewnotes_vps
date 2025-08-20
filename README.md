@@ -33,25 +33,6 @@ docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d --build
 docker compose exec -T web python manage.py migrate
 docker compose exec -T web python manage.py collectstatic --noinput
 ```
-🐛 Bugs & Solutions
-| Bug                       | Symptom                                | Solution                                                                                       | Impact                    |
-| ------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- |
-| Static Manifest Errors    | 500 after enabling WhiteNoise manifest | Switched to `CompressedStaticFilesStorage` + re-collect                                        | Static serving stabilized |
-| OAuth Redirect Using HTTP | Google “request invalid”               | Set `ACCOUNT_DEFAULT_HTTP_PROTOCOL=https`, proxy headers, Gunicorn `--forwarded-allow-ips="*"` | OAuth working in prod     |
-| Port 80 Conflict          | Caddy failed to bind                   | Stopped Apache & remapped any other services                                                   | HTTPS live                |
-| PgAdmin Public Exposure   | Port 80/5050 accessible publicly       | Bound to `127.0.0.1:5050` + SSH tunnel                                                         | Safer admin access        |
-
-## 🛠 Tech Stack
-| Technology         | Purpose                               | Version / Notes |
-| ------------------ | ------------------------------------- | --------------- |
-| **Django**         | Web framework                         | 4.2.x           |
-| **PostgreSQL**     | Database                              | 14.x            |
-| **Docker**         | Containerization                      | Compose v2      |
-| **Gunicorn**       | WSGI app server                       | 21.x            |
-| **Caddy**          | Reverse proxy + HTTPS (Let’s Encrypt) | 2.x             |
-| **django-allauth** | Google OAuth sign-in                  | 65.x            |
-| **WhiteNoise**     | Static files in production            | 6.x             |
-| **Bootstrap**      | UI layout & utilities                 | 5.x             |
 
 
 ## 👥 User Stories
@@ -85,3 +66,50 @@ docker compose exec -T web python manage.py collectstatic --noinput
 - Authenticated landing shows My Recipes / Create Recipe / Logout
 - Edits persist without data loss
 - Timeline is legible on mobile and desktop
+
+
+## 🔄 Data Flow
+
+- Browser → Caddy (HTTPS; redirects HTTP→HTTPS)
+
+- Caddy forwards to Gunicorn (web:8000) with forwarded headers
+
+- Django serves views/templates; WhiteNoise serves static assets
+
+- DB reads/writes to PostgreSQL (Docker bind mount/volume)
+
+- Google OAuth callback → /accounts/google/login/callback/
+![App Screenshot](documentation/db-flow.png)
+
+## 🛠 Tech Stack
+| Technology         | Purpose                               | Version / Notes |
+| ------------------ | ------------------------------------- | --------------- |
+| **Django**         | Web framework                         | 4.2.x           |
+| **PostgreSQL**     | Database                              | 14.x            |
+| **Docker**         | Containerization                      | Compose v2      |
+| **Gunicorn**       | WSGI app server                       | 21.x            |
+| **Caddy**          | Reverse proxy + HTTPS (Let’s Encrypt) | 2.x             |
+| **django-allauth** | Google OAuth sign-in                  | 65.x            |
+| **WhiteNoise**     | Static files in production            | 6.x             |
+| **Bootstrap**      | UI layout & utilities                 | 5.x             |
+
+
+## ✨ Features
+| Feature               | Description                                | Implementation               |
+| --------------------- | ------------------------------------------ | ---------------------------- |
+| Google Sign-in        | One-click auth via Google                  | `django-allauth`             |
+| Recipes               | CRUD recipes with OG/FG targets            | Django models/forms/views    |
+| Fermentation Timeline | Plan start/end, cold crash, conditioning   | Model fields + templates     |
+| Brew & Testing Notes  | Record process and tasting notes per batch | Text fields + views          |
+| Ratings & Verdicts    | Mark keepers and rate each batch           | Simple rating field          |
+| Static Assets (prod)  | Serve CSS/JS/images efficiently            | WhiteNoise + `collectstatic` |
+| HTTPS & Reverse Proxy | Auto TLS + proxy to Gunicorn               | Caddy                        |
+
+
+## 🐛 Bugs & Solutions
+| Bug                       | Symptom                                | Solution                                                                                       | Impact                    |
+| ------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- |
+| Static Manifest Errors    | 500 after enabling WhiteNoise manifest | Switched to `CompressedStaticFilesStorage` + re-collect                                        | Static serving stabilized |
+| OAuth Redirect Using HTTP | Google “request invalid”               | Set `ACCOUNT_DEFAULT_HTTP_PROTOCOL=https`, proxy headers, Gunicorn `--forwarded-allow-ips="*"` | OAuth working in prod     |
+| Port 80 Conflict          | Caddy failed to bind                   | Stopped Apache & remapped any other services                                                   | HTTPS live                |
+| PgAdmin Public Exposure   | Port 80/5050 accessible publicly       | Bound to `127.0.0.1:5050` + SSH tunnel                                                         | Safer admin access        |
