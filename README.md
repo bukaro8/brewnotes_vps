@@ -32,6 +32,7 @@ docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d --build
 # Apply migrations & collect static assets
 docker compose exec -T web python manage.py migrate
 docker compose exec -T web python manage.py collectstatic --noinput
+```
 🐛 Bugs & Solutions
 | Bug                       | Symptom                                | Solution                                                                                       | Impact                    |
 | ------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- |
@@ -39,3 +40,15 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | OAuth Redirect Using HTTP | Google “request invalid”               | Set `ACCOUNT_DEFAULT_HTTP_PROTOCOL=https`, proxy headers, Gunicorn `--forwarded-allow-ips="*"` | OAuth working in prod     |
 | Port 80 Conflict          | Caddy failed to bind                   | Stopped Apache & remapped any other services                                                   | HTTPS live                |
 | PgAdmin Public Exposure   | Port 80/5050 accessible publicly       | Bound to `127.0.0.1:5050` + SSH tunnel                                                         | Safer admin access        |
+
+## 🛠 Tech Stack
+| Technology         | Purpose                               | Version / Notes |
+| ------------------ | ------------------------------------- | --------------- |
+| **Django**         | Web framework                         | 4.2.x           |
+| **PostgreSQL**     | Database                              | 14.x            |
+| **Docker**         | Containerization                      | Compose v2      |
+| **Gunicorn**       | WSGI app server                       | 21.x            |
+| **Caddy**          | Reverse proxy + HTTPS (Let’s Encrypt) | 2.x             |
+| **django-allauth** | Google OAuth sign-in                  | 65.x            |
+| **WhiteNoise**     | Static files in production            | 6.x             |
+| **Bootstrap**      | UI layout & utilities                 | 5.x             |
