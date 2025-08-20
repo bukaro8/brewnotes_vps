@@ -1,7 +1,9 @@
 
 # 🍺 BrewNotes — Homebrew Recipe & Batch Tracker
 ![App Screenshot](documentation/app-screenshot.jpg)
-## https://brewnotes.art
+
+# https://brewnotes.art
+
 ## 💻  Deployment (Run Locally)
 
 ```bash
