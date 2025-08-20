@@ -93,7 +93,27 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | **WhiteNoise**     | Static files in production            | 6.x             |
 | **Bootstrap**      | UI layout & utilities                 | 5.x             |
 
+### Color Application
 
+- **Header/Navbar**: Use `#5B8C3A` (Hop Green) as background with `#F8F5F0` (Off-White) text
+- **Primary Buttons**: Use `#D4A017` (Malt Gold) with dark text for contrast
+- **Links**: Use `#6A4C93` (Fermentation Purple) for all interactive elements
+- **Cards/Forms**: Use `#D3CEC4` (Warm Gray) as border color on `#F8F5F0` (Off-White) background
+- **Content Areas**: Use `#F8F5F0` (Off-White) as the primary background for content
+
+## Color Swatches
+
+<div align="center">
+  
+| Color Name         | Swatch                      | Hex Code  |
+|--------------------|-----------------------------|-----------|
+| Hop Green          | ![#5B8C3A](https://via.placeholder.com/40/5B8C3A/000000?text=+) | `#5B8C3A` |
+| Off-White          | ![#F8F5F0](https://via.placeholder.com/40/F8F5F0/000000?text=+) | `#F8F5F0` |
+| Malt Gold          | ![#D4A017](https://via.placeholder.com/40/D4A017/000000?text=+) | `#D4A017` |
+| Fermentation Purple| ![#6A4C93](https://via.placeholder.com/40/6A4C93/000000?text=+) | `#6A4C93` |
+| Warm Gray          | ![#D3CEC4](https://via.placeholder.com/40/D3CEC4/000000?text=+) | `#D3CEC4` |
+
+</div>
 ## ✨ Features
 | Feature               | Description                                | Implementation               |
 | --------------------- | ------------------------------------------ | ---------------------------- |
@@ -113,3 +133,37 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | OAuth Redirect Using HTTP | Google “request invalid”               | Set `ACCOUNT_DEFAULT_HTTP_PROTOCOL=https`, proxy headers, Gunicorn `--forwarded-allow-ips="*"` | OAuth working in prod     |
 | Port 80 Conflict          | Caddy failed to bind                   | Stopped Apache & remapped any other services                                                   | HTTPS live                |
 | PgAdmin Public Exposure   | Port 80/5050 accessible publicly       | Bound to `127.0.0.1:5050` + SSH tunnel                                                         | Safer admin access        |
+
+## Manual Testing
+
+
+| Feature               | Action                              | Expected Result                         | Tested | Passed | Comments              |
+| --------------------- | ----------------------------------- | --------------------------------------- | ------ | ------ | --------------------- |
+| **Sign-in**           | Click “Continue with Google”        | Google consent → redirected & logged in | Yes    | Yes    |                       |
+| **Create Recipe**     | Click “Create Recipe”, fill targets | New recipe appears in list              | Yes    | Yes    | Validation for OG/FG  |
+| **Edit Recipe**       | Change targets/notes                | Data saved and reflected on detail      | Yes    | Yes    |                       |
+| **Timeline Planning** | Add fermentation dates              | Timeline displays milestones            | Yes    | Yes    |                       |
+| **Ratings**           | Rate & mark verdict                 | Rating visible in list and detail       | Yes    | Yes    |                       |
+| **Static Files**      | Load landing styles/images          | No 404; cached responses                | Yes    | Yes    | WhiteNoise configured |
+
+
+## Credits
+### Technologies
+
+- Django
+
+- PostgreSQL
+
+- Gunicorn
+
+- Docker/Compose
+
+- django-allauth (auth)
+
+- Bootstrap (layout/utilities)
+
+- Design Resources
+
+- Palette inspired by brewing tones (hop green, malt beige, amber)
+
+- Icons: Google Material Symbols
