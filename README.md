@@ -52,3 +52,36 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | **django-allauth** | Google OAuth sign-in                  | 65.x            |
 | **WhiteNoise**     | Static files in production            | 6.x             |
 | **Bootstrap**      | UI layout & utilities                 | 5.x             |
+
+
+## 👥 User Stories
+
+### 👋 First-Time User
+
+**As a new user, I want to:**
+
+- Sign in quickly with Google
+- Create my first recipe with gravity targets
+- See where to plan fermentation and add tasting notes
+
+**Acceptance Criteria:**
+
+- Clear "Continue with Google" on landing when logged out
+- "Create Recipe" visible immediately after login
+- Simple navigation with ≤ 3 main sections
+
+---
+
+### 🔄 Returning User
+
+**As a regular user, I need to:**
+
+- Jump straight to My Recipes
+- Update batch notes/ratings in seconds
+- Review upcoming fermentation milestones
+
+**Acceptance Criteria:**
+
+- Authenticated landing shows My Recipes / Create Recipe / Logout
+- Edits persist without data loss
+- Timeline is legible on mobile and desktop
