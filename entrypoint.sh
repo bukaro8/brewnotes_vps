@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
 set -e
 
+echo "🚀 Starting BrewNotes entrypoint..."
+
+# Move to the app directory
+cd /app
+
 # Optional: wait for Postgres if needed
-if [ -n "$POSTGRES_HOST" ]; then
-  echo "Waiting for Postgres at $POSTGRES_HOST:$POSTGRES_PORT..."
-  for i in {1..30}; do
-    if pg_isready -h "$POSTGRES_HOST" -p "${POSTGRES_PORT:-5432}" -U "$POSTGRES_USER" >/dev/null 2>&1; then
-      echo "Postgres is ready."
-      break
-    fi
+if [ -n "$DB_HOST" ]; then
+  echo "⏳ Waiting for database at $DB_HOST..."
+  while ! nc -z "$DB_HOST" "${DB_PORT:-5432}"; do
     sleep 1
   done
 fi
 
+echo "✅ Database reachable. Applying migrations and collecting static files..."
+
+# Run migrations and collect static files
 python manage.py migrate --noinput
-# You’re on Cloudinary, but collectstatic is harmless and useful for admin
 python manage.py collectstatic --noinput
 
-# 👉 Replace 'projectname.wsgi' with your real module (folder containing wsgi.py)
+echo "🏁 Launching Gunicorn server..."
 
-exec gunicorn brewnotes.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3
+# Start Gunicorn
+exec gunicorn brewnotes.wsgi:application \
+  --bind 0.0.0.0:${PORT:-8000} \
+  --workers 3 \
+  --timeout 60 \
+  --access-logfile - \
+  --error-logfile - \
+  --forwarded-allow-ips="*"

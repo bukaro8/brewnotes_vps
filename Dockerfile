@@ -1,21 +1,30 @@
-FROM python:3.8
-ENV PYTHONUNBUFFERED=1
+# Use 3.11 for speed/security. If you must stay on 3.8, swap the tag.
+FROM python:3.11-slim
 
-WORKDIR /code
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    APP_HOME=/app \
+    PYTHONPATH=/app
 
-COPY requirements.txt /code/
-RUN python -m pip install --upgrade pip
-RUN apt-get update && apt-get install -y postgresql-client
-RUN pip install --no-cache-dir -r /code/requirements.txt
+WORKDIR $APP_HOME
 
-# bring the app in
-COPY . /code/
+# System deps for psycopg2 and friends
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# 👇 ensure Python can import packages from /code (so 'notes' resolves)
-ENV PYTHONPATH="/code"
+# Install Python deps
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# make sure the entrypoint is executable
-RUN chmod +x /code/entrypoint.sh
+# Copy app
+COPY . .
 
-# start via entrypoint (it will migrate, collectstatic, then gunicorn)
-CMD ["/code/entrypoint.sh"]
+# Ensure entrypoint is executable (if present)
+RUN chmod +x entrypoint.sh || true
+
+EXPOSE 8000
+
+# Run migrations/static in entrypoint, then start Gunicorn there
+CMD ["bash", "entrypoint.sh"]

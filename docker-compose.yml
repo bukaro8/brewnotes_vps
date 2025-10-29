@@ -1,32 +1,33 @@
-version: "3.8"
+version: "3.9"
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: brewnotes:latest
     container_name: brewnotes-web
-    env_file: .env
-    # If you have entrypoint.sh, use that; otherwise keep the gunicorn line:
-    # command: ["/code/entrypoint.sh"]
+    working_dir: /app
+    # entrypoint.sh handles migrations, collectstatic, and starts Gunicorn
     command: >
-      gunicorn brewnotes.wsgi:application
-      -b 0.0.0.0:8000
-      --workers 3
-      --timeout 60
-      --access-logfile -
-      --error-logfile -
-      --log-level debug
-      --capture-output
-      --forwarded-allow-ips="*"
+      bash -lc "bash entrypoint.sh"
+    env_file:
+      - .env
     ports:
-      - "3050:8000"           # host:container (LAN-accessible)
+      - "3050:8000"
     restart: unless-stopped
     networks:
       - coolify
-    # For production, avoid bind-mounting the source. Uncomment only if you need live-reload style dev.
-    # volumes:
-    #   - .:/code
+    # Healthcheck hits the root; adjust to /health if you add one later
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    # If your DB runs as a separate container on the same network, you can
+    # add it to depends_on. For now it's omitted because your DB is external.
 
 networks:
   coolify:
     external: true
-    name: coolify
