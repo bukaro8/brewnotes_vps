@@ -12,7 +12,9 @@ WORKDIR $APP_HOME
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install Python deps
 COPY requirements.txt .
