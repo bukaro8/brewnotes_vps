@@ -94,10 +94,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'brewnotes.urls'
-CSRF_TRUSTED_ORIGINS = [
-    'https://brewnotes.art',
-    'https://www.brewnotes.art',
-]
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
