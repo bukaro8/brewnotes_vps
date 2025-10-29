@@ -1,40 +1,32 @@
+version: "3.8"
+
 services:
-  db:
-    image: postgres:14.10
-    restart: always
-    container_name: postgresql
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "5432:5432"
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    env_file:
-      - .env
-    ports:
-      - "127.0.0.1:5050:80"
-    depends_on:
-      - db
-
   web:
     build: .
-    container_name: django
-    command: gunicorn brewnotes.wsgi:application -b 0.0.0.0:8000 --workers 3 --timeout 60 --access-logfile - --error-logfile - --log-level debug --capture-output --forwarded-allow-ips="*"
-    volumes:
-      - .:/code
+    container_name: brewnotes-web
+    env_file: .env
+    # If you have entrypoint.sh, use that; otherwise keep the gunicorn line:
+    # command: ["/code/entrypoint.sh"]
+    command: >
+      gunicorn brewnotes_vps.wsgi:application
+      -b 0.0.0.0:8000
+      --workers 3
+      --timeout 60
+      --access-logfile -
+      --error-logfile -
+      --log-level debug
+      --capture-output
+      --forwarded-allow-ips="*"
     ports:
-      - "127.0.0.1:8000:8000"
-    env_file:
-      - .env
-    depends_on:
-      - db
-volumes:
-  static_volume:
+      - "3050:8000"           # host:container (LAN-accessible)
+    restart: unless-stopped
+    networks:
+      - coolify
+    # For production, avoid bind-mounting the source. Uncomment only if you need live-reload style dev.
+    # volumes:
+    #   - .:/code
+
+networks:
+  coolify:
+    external: true
+    name: coolify
