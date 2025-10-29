@@ -3,26 +3,24 @@ set -e
 
 echo "🚀 Starting BrewNotes entrypoint..."
 
-# Move to the app directory
+# Always run from the app root
 cd /app
 
-# Optional: wait for Postgres if needed
+# Wait for Postgres WITHOUT nc (uses /dev/tcp)
 if [ -n "$DB_HOST" ]; then
-  echo "⏳ Waiting for database at $DB_HOST..."
-  while ! nc -z "$DB_HOST" "${DB_PORT:-5432}"; do
+  echo "⏳ Waiting for database at $DB_HOST:${DB_PORT:-5432}..."
+  for i in {1..60}; do
+    (exec 3<>/dev/tcp/"$DB_HOST"/"${DB_PORT:-5432}") >/dev/null 2>&1 && break
     sleep 1
   done
+  echo "✅ Database TCP port reachable."
 fi
 
-echo "✅ Database reachable. Applying migrations and collecting static files..."
-
-# Run migrations and collect static files
+echo "✅ Applying migrations and collecting static..."
 python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 
-echo "🏁 Launching Gunicorn server..."
-
-# Start Gunicorn
+echo "🏁 Launching Gunicorn..."
 exec gunicorn brewnotes.wsgi:application \
   --bind 0.0.0.0:${PORT:-8000} \
   --workers 3 \
