@@ -8,7 +8,7 @@ services:
     # If you have entrypoint.sh, use that; otherwise keep the gunicorn line:
     # command: ["/code/entrypoint.sh"]
     command: >
-      gunicorn brewnotes_vps.wsgi:application
+      gunicorn brewnotes.wsgi:application
       -b 0.0.0.0:8000
       --workers 3
       --timeout 60
