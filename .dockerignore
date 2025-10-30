@@ -14,7 +14,7 @@ __pycache__
 
 # collected/static build outputs & docs
 staticfiles
-static
+
 
 documentation
 
