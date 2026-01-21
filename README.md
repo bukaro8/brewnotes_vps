@@ -2,7 +2,7 @@
 # 🍺 BrewNotes — Homebrew Recipe & Batch Tracker
 ![App Screenshot](documentation/app-screenshot.jpg)
 
-# https://brewnotes.art
+# https://brewnotes.vicstack.uk
 
 ## 💻  Deployment (Run Locally)
 
