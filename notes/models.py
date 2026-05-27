@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -143,6 +144,36 @@ class Recipe(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Recipe'
         verbose_name_plural = 'Recipes'
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        date_pairs = [
+            (
+                'fermentation_start',
+                'fermentation_end',
+                'Fermentation end date must be the same day or later than the start date.'
+            ),
+            (
+                'coldcrash_start',
+                'coldcrash_end',
+                'Cold crash end date must be the same day or later than the start date.'
+            ),
+            (
+                'conditioning_start',
+                'conditioning_end',
+                'Conditioning end date must be the same day or later than the start date.'
+            ),
+        ]
+
+        for start_field, end_field, message in date_pairs:
+            start_date = getattr(self, start_field)
+            end_date = getattr(self, end_field)
+            if start_date and end_date and end_date < start_date:
+                errors[end_field] = message
+
+        if errors:
+            raise ValidationError(errors)
 
     def __str__(self):
         return f"{self.name} (by {self.user.username})"
