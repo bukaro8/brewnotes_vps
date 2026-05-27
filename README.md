@@ -130,8 +130,30 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | My Recipes retested after fixing the route | Passed |
 | Recipe create, view, edit and delete workflow retested on the deployed site | Passed |
 | Latest changes pushed to GitHub | Passed |
+### Final Assessment Retest
 
+| Area | Result |
 
+| ---- | ------ |
+
+| Google login/logout | Passed |
+
+| My Recipes route | Passed |
+
+| Create, view, edit and delete recipe | Passed |
+
+| Seeded ingredients available in recipe form | Passed |
+
+| Invalid date ranges blocked with visible error messages | Passed |
+
+| Anonymous `/recipe/create/` access redirects safely to home | Passed |
+
+| Unknown routes redirect safely to home | Passed |
+
+| Deployment runs on Coolify with PostgreSQL | Passed |
+
+## 💻 Deployment
+The live version is deployed with Coolify using Dockerfile-based deployment, Gunicorn, PostgreSQL and Cloudflare routing.
 ## Credits
 ### Technologies
 
