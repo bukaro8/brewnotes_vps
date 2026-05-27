@@ -131,45 +131,29 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | Recipe create, view, edit and delete workflow retested on the deployed site | Passed |
 | Latest changes pushed to GitHub | Passed |
 
-### Regression Testing
+## Regression Testing
 
 | Test | Expected Result | Result |
+|-------|----------------|--------|
+| Visit `/recipe/create/` while logged out | Redirects safely to homepage | ✅ Passed |
+| Visit an unknown route such as `/gato` | Redirects safely to homepage | ✅ Passed |
+| Create recipe with end date before start date | Save is blocked and error message appears | ✅ Passed |
+| Edit recipe with invalid date range | Save is blocked and error message appears | ✅ Passed |
+| Create recipe using seeded ingredients | Ingredients appear and recipe saves correctly | ✅ Passed |
+| Login with Google on fresh deployment | User is authenticated and redirected correctly | ✅ Passed |
 
-| ---- | --------------- | ------ |
-
-| Visit `/recipe/create/` while logged out | Redirects safely to homepage | Passed |
-
-| Visit an unknown route such as `/gato` | Redirects safely to homepage | Passed |
-
-| Create recipe with end date before start date | Save is blocked and error message appears | Passed |
-
-| Edit recipe with invalid date range | Save is blocked and error message appears | Passed |
-
-| Create recipe using seeded ingredients | Ingredients appear and recipe saves correctly | Passed |
-
-| Login with Google on fresh deployment | User is authenticated and redirected correctly | Passed |
-### Final Assessment Retest
+## Final Assessment Retest
 
 | Area | Result |
-
-| ---- | ------ |
-
-| Google login/logout | Passed |
-
-| My Recipes route | Passed |
-
-| Create, view, edit and delete recipe | Passed |
-
-| Seeded ingredients available in recipe form | Passed |
-
-| Invalid date ranges blocked with visible error messages | Passed |
-
-| Anonymous `/recipe/create/` access redirects safely to home | Passed |
-
-| Unknown routes redirect safely to home | Passed |
-
-| Deployment runs on Coolify with PostgreSQL | Passed |
-
+|------|--------|
+| Google login/logout | ✅ Passed |
+| My Recipes route | ✅ Passed |
+| Create, view, edit and delete recipe | ✅ Passed |
+| Seeded ingredients available in recipe form | ✅ Passed |
+| Invalid date ranges blocked with visible error messages | ✅ Passed |
+| Anonymous `/recipe/create/` access redirects safely to home | ✅ Passed |
+| Unknown routes redirect safely to home | ✅ Passed |
+| Deployment runs on Coolify with PostgreSQL | ✅ Passed |
 ## 💻 Deployment
 The live version is deployed with Coolify using Dockerfile-based deployment, Gunicorn, PostgreSQL and Cloudflare routing.
 ## Credits
