@@ -6,12 +6,6 @@ echo "🚀 Starting BrewNotes entrypoint..."
 # Always run from the app root
 cd /app
 
-echo "Database environment:"
-echo "DB_NAME=${DB_NAME}"
-echo "DB_USER=${DB_USER}"
-echo "DB_HOST=${DB_HOST}"
-echo "DB_PORT=${DB_PORT:-5432}"
-
 # Wait for Postgres WITHOUT nc (uses /dev/tcp)
 if [ -n "$DB_HOST" ]; then
   echo "⏳ Waiting for database at $DB_HOST:${DB_PORT:-5432}..."
