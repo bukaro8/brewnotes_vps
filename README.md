@@ -2,7 +2,7 @@
 # 🍺 BrewNotes — Homebrew Recipe & Batch Tracker
 ![App Screenshot](documentation/app-screenshot.jpg)
 
-# https://brewnotes.vicstack.co.uk/
+# https://brewnotes.vicstack.uk/
 
 ## 💻  Deployment (Run Locally)
 
@@ -126,7 +126,7 @@ docker compose exec -T web python manage.py collectstatic --noinput
 
 | Check | Result |
 | ----- | ------ |
-| Live site opens at `https://brewnotes.vicstack.co.uk/` | Passed |
+| Live site opens at `https://brewnotes.vicstack.uk/` | Passed |
 | My Recipes retested after fixing the route | Passed |
 | Recipe create, view, edit and delete workflow retested on the deployed site | Passed |
 | Latest changes pushed to GitHub | Passed |
