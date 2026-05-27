@@ -38,6 +38,26 @@ class RecipeForm(forms.ModelForm):
                 raise forms.ValidationError(f'Image must be ≤ {max_mb}MB.')
             return f
 
+    def clean(self):
+        cleaned_data = super().clean()
+        date_pairs = [
+            ('fermentation_start', 'fermentation_end', 'Fermentation end date'),
+            ('coldcrash_start', 'coldcrash_end', 'Cold crash end date'),
+            ('conditioning_start', 'conditioning_end', 'Conditioning end date'),
+        ]
+
+        for start_field, end_field, end_label in date_pairs:
+            start_date = cleaned_data.get(start_field)
+            end_date = cleaned_data.get(end_field)
+
+            if start_date and end_date and end_date < start_date:
+                self.add_error(
+                    end_field,
+                    f'{end_label} must be the same day or later than the start date.'
+                )
+
+        return cleaned_data
+
 
 class RecipeIngredientForm(forms.ModelForm):
     existing_ingredient = forms.ModelChoiceField(
