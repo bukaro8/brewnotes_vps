@@ -130,6 +130,24 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | My Recipes retested after fixing the route | Passed |
 | Recipe create, view, edit and delete workflow retested on the deployed site | Passed |
 | Latest changes pushed to GitHub | Passed |
+
+### Regression Testing
+
+| Test | Expected Result | Result |
+
+| ---- | --------------- | ------ |
+
+| Visit `/recipe/create/` while logged out | Redirects safely to homepage | Passed |
+
+| Visit an unknown route such as `/gato` | Redirects safely to homepage | Passed |
+
+| Create recipe with end date before start date | Save is blocked and error message appears | Passed |
+
+| Edit recipe with invalid date range | Save is blocked and error message appears | Passed |
+
+| Create recipe using seeded ingredients | Ingredients appear and recipe saves correctly | Passed |
+
+| Login with Google on fresh deployment | User is authenticated and redirected correctly | Passed |
 ### Final Assessment Retest
 
 | Area | Result |
