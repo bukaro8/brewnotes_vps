@@ -29,11 +29,13 @@ def profile(request):
 # Create Recipe
 
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = RecipeForm
     template_name = 'notes/recipe_create.html'
     success_url = reverse_lazy('home')
+    login_url = reverse_lazy('home')
+    redirect_field_name = None
     # Return ingredients created by the user and Admin
 
     def get_context_data(self, **kwargs):
@@ -92,8 +94,8 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'notes/recipe_update.html'
     success_url = reverse_lazy('home')
     context_object_name = 'recipe'
-    login_url = '/accounts/login/'
-    redirect_field_name = 'next'
+    login_url = reverse_lazy('home')
+    redirect_field_name = None
 
     def test_func(self):
         return self.get_object().user == self.request.user
