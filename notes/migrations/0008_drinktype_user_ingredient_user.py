@@ -2,7 +2,28 @@
 
 from django.conf import settings
 from django.db import migrations, models
+from django.utils import timezone
 import django.db.models.deletion
+
+
+def assign_default_user(apps, schema_editor):
+    app_label, model_name = settings.AUTH_USER_MODEL.split('.')
+    User = apps.get_model(app_label, model_name)
+    DrinkType = apps.get_model('notes', 'DrinkType')
+    Ingredient = apps.get_model('notes', 'Ingredient')
+
+    user, _ = User.objects.get_or_create(
+        username='brewnotes_default_user',
+        defaults={
+            'email': '',
+            'is_active': False,
+            'is_staff': False,
+            'is_superuser': False,
+            'date_joined': timezone.now(),
+        },
+    )
+    DrinkType.objects.filter(user__isnull=True).update(user=user)
+    Ingredient.objects.filter(user__isnull=True).update(user=user)
 
 
 class Migration(migrations.Migration):
@@ -16,13 +37,24 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='drinktype',
             name='user',
-            field=models.ForeignKey(default=1, help_text='Creator of this drink type', on_delete=django.db.models.deletion.CASCADE, related_name='drink_types', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(help_text='Creator of this drink type', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='drink_types', to=settings.AUTH_USER_MODEL),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='ingredient',
             name='user',
-            field=models.ForeignKey(default=1, help_text='Creator of this ingredient', on_delete=django.db.models.deletion.CASCADE, related_name='ingredients', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(help_text='Creator of this ingredient', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='ingredients', to=settings.AUTH_USER_MODEL),
             preserve_default=False,
+        ),
+        migrations.RunPython(assign_default_user, migrations.RunPython.noop),
+        migrations.AlterField(
+            model_name='drinktype',
+            name='user',
+            field=models.ForeignKey(help_text='Creator of this drink type', on_delete=django.db.models.deletion.CASCADE, related_name='drink_types', to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AlterField(
+            model_name='ingredient',
+            name='user',
+            field=models.ForeignKey(help_text='Creator of this ingredient', on_delete=django.db.models.deletion.CASCADE, related_name='ingredients', to=settings.AUTH_USER_MODEL),
         ),
     ]
