@@ -2,7 +2,7 @@
 # 🍺 BrewNotes — Homebrew Recipe & Batch Tracker
 ![App Screenshot](documentation/app-screenshot.jpg)
 
-# https://brewnotes.vicstack.uk
+# https://brewnotes.vicdeveloper.co.uk/
 
 ## 💻  Deployment (Run Locally)
 
@@ -122,6 +122,15 @@ docker compose exec -T web python manage.py collectstatic --noinput
 | **Ratings**           | Rate & mark verdict                 | Rating visible in list and detail       | Yes    | Yes    |                       |
 | **Static Files**      | Load landing styles/images          | No 404; cached responses                | Yes    | Yes    | WhiteNoise configured |
 
+### Deployed Retest
+
+| Check | Result |
+| ----- | ------ |
+| Live site opens at `https://brewnotes.vicdeveloper.co.uk/` | Passed |
+| My Recipes retested after fixing the route | Passed |
+| Recipe create, view, edit and delete workflow retested on the deployed site | Passed |
+| Latest changes pushed to GitHub | Passed |
+
 
 ## Credits
 ### Technologies
@@ -143,3 +152,4 @@ docker compose exec -T web python manage.py collectstatic --noinput
 - Palette inspired by brewing tones (hop green, malt beige, amber)
 
 - Icons: Google Material Symbols
+
