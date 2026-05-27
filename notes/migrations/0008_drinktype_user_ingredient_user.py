@@ -17,7 +17,7 @@ def assign_default_user(apps, schema_editor):
         defaults={
             'email': '',
             'is_active': False,
-            'is_staff': False,
+            'is_staff': True,
             'is_superuser': False,
             'date_joined': timezone.now(),
         },
