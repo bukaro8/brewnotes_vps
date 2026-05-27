@@ -29,3 +29,44 @@
 .header .dropdown-menu{ background: #4a7133; border-color: #3e6128; }
 .header .dropdown-item{ color: var(--brand-ivory); }
 .header .dropdown-item:hover{ background: #3e6128; color: #fff; }
+
+.recipe-form-shell {
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.recipe-form-shell > .row,
+.recipe-form-shell > .py-4,
+.recipe-form-shell #formset-area {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: .5rem;
+  padding: 1rem;
+}
+
+.recipe-form-shell h2 {
+  margin-top: 1.5rem;
+}
+
+.recipe-form-shell .form-label {
+  font-weight: 600;
+}
+
+.recipe-form-shell .form-control,
+.recipe-form-shell .form-select,
+.recipe-form-shell textarea,
+.recipe-form-shell select {
+  width: 100%;
+}
+
+.recipe-form-shell .invalid-feedback {
+  text-align: start;
+}
+
+@media (max-width: 576px) {
+  .recipe-form-shell > .row,
+  .recipe-form-shell > .py-4,
+  .recipe-form-shell #formset-area {
+    padding: .875rem;
+  }
+}

@@ -11,7 +11,7 @@
 <div class="d-flex flex-column align-items-center">
   <h1>Update Recipe</h1>
 
-  <form method="post" class="w-100" enctype="multipart/form-data">
+  <form method="post" class="w-100 recipe-form-shell" enctype="multipart/form-data">
     {% csrf_token %}
 
     {% if form.non_field_errors %}
@@ -24,6 +24,7 @@
     <div class="section-rule my-4"></div>
 
     <!-- Name / Description / Drink type -->
+    <h2 class="fs-5 fw-semibold text-hop my-2 text-center">Recipe details</h2>
     <div class="row g-4 d-flex ">
       <div class="col-12 text-center">
         <label for="{{ form.name.id_for_label }}" class="form-label">Recipe name</label>
